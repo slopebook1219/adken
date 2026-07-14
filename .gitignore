@@ -1,0 +1,13 @@
+# Node
+node_modules/
+.next/
+dist/
+
+# Java/Gradle
+build/
+.gradle/
+.settings/
+.classpath
+.project
+*.log
+.DS_Store
