@@ -10,18 +10,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+
       - name: Install dependencies
-        run: cd frontend && npm install
+        # リポジトリルートから見てfrontendフォルダへ移動して実行
+        run: npm install
+        working-directory: frontend
+
       - name: Build
-        run: cd frontend && npm run build
+        # リポジトリルートから見てfrontendフォルダでビルド
+        run: npm run build
+        working-directory: frontend
+
       - name: Upload Artifacts
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./frontend/out
+          # ビルド結果(out)がfrontendフォルダの中にある前提
+          path: frontend/out
 
   deploy:
     needs: build
