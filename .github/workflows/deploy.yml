@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy Frontend Only
 
 on:
   push:
@@ -17,19 +17,17 @@ jobs:
           node-version: "20"
 
       - name: Install dependencies
-        # リポジトリルートから見てfrontendフォルダへ移動して実行
-        run: npm install
         working-directory: frontend
+        run: npm install
 
       - name: Build
-        # リポジトリルートから見てfrontendフォルダでビルド
-        run: npm run build
         working-directory: frontend
+        run: npm run build
 
-      - name: Upload Artifacts
+      - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # ビルド結果(out)がfrontendフォルダの中にある前提
+          # フロントエンドのビルド出力先が 'out' である想定です
           path: frontend/out
 
   deploy:
@@ -42,6 +40,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
